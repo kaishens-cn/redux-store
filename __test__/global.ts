@@ -47,6 +47,7 @@ export class Global extends Models {
                 name: 'kai',
             }
         });
+        return {id: '999'}
     }
 
     @reducers()

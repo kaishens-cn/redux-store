@@ -178,11 +178,11 @@ const subscribe = (listener: () => void) => {
     listener();
 }
 
-const getState = () => {
+const getState = <T,>(): Map<string, T> => {
     if (_store) {
         return _store.getState();
     }
-    return {};
+    return Map({});
 }
 
 const dispatch = <T, >(action: DispatchParams<T>): Promise<void> | void => {
