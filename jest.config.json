@@ -1,0 +1,15 @@
+{
+  "collectCoverageFrom": ["src/**"],
+  "moduleFileExtensions": [
+    "js",
+    "jsx",
+    "ts",
+    "tsx",
+    "json"
+  ],
+  "testEnvironment": "jsdom",
+  "testMatch": [
+    "**/__test__/*.spec.tsx"
+  ],
+  "verbose": true
+}
