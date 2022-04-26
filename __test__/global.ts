@@ -48,4 +48,14 @@ export class Global extends Models {
             }
         });
     }
+
+    @reducers()
+    emitError(ctx: Context) {
+        throw new Error('主动抛出的错误');
+    }
+
+    @asyncReducers()
+    async emitPromiseError(ctx: Context) {
+        throw new Error('主动抛出的异步错误');
+    }
 }

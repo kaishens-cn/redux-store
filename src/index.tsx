@@ -82,7 +82,7 @@ export class Context {
         this.dispatch = dispatch;
     }
 
-    dispatch<T, >(action: DispatchParams<T>): Promise<void> | void {
+    dispatch<T, >(_action: DispatchParams<T>): Promise<void> | void {
     }
 
     payload: any;
@@ -196,22 +196,20 @@ const dispatch = <T, >(action: DispatchParams<T>): Promise<void> | void => {
         const ctx = new Context(action.payload);
         return new Promise((resolve, reject) => {
             // 对异常情况都不更新状态
-            try {
-                actions[`${action.namespace}/${action.type}`].action(ctx).then((res: any) => {
-                    if (_store) {
-                        _store.dispatch({
-                            namespace: action.namespace,
-                            type: 'asyncReducers',
-                            payload: {
-                                [action.namespace]: res,
-                            },
-                        });
-                        resolve();
-                    }
-                })
-            } catch (e) {
-                reject();
-            }
+            actions[`${action.namespace}/${action.type}`].action(ctx).then((res: any) => {
+                if (_store) {
+                    _store.dispatch({
+                        namespace: action.namespace,
+                        type: 'asyncReducers',
+                        payload: {
+                            [action.namespace]: res,
+                        },
+                    });
+                    resolve();
+                }
+            }).catch((e: any) => {
+                reject(e);
+            })
         })
     }
     if (actions[`${action.namespace}/${action.type}`].type === 'reduces') {
