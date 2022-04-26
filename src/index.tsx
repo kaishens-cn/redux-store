@@ -18,13 +18,13 @@ let target_namespace = '';
 let target_model: TargetModel = {};
 
 export const asyncReducers = () => {
-    return (target: Object, property_key: string, descriptor: TypedPropertyDescriptor<any>) => {
+    return (target: Object, property_key: string) => {
         target_model[target_namespace].asyncReducers.push(property_key);
     }
 }
 
 export const reducers = () => {
-    return (target: Object, property_key: string, descriptor: TypedPropertyDescriptor<any>) => {
+    return (target: Object, property_key: string) => {
         target_model[target_namespace].reducers.push(property_key);
     }
 }
@@ -79,13 +79,13 @@ interface DispatchParams<T> {
 export class Context {
     constructor(payload: any) {
         this.payload = payload;
-        this.dispatch = _store.dispatch;
+        this.dispatch = dispatch;
     }
 
-    dispatch<T>(params: DispatchParams<T>): any {
+    dispatch<T, >(action: DispatchParams<T>): Promise<void> | void {
     }
 
-    payload;
+    payload: any;
 }
 
 export interface ReduxStoreProps {
@@ -188,6 +188,8 @@ const getState = () => {
 const dispatch = <T, >(action: DispatchParams<T>): Promise<void> | void => {
     if (!actions.hasOwnProperty(`${action.namespace}/${action.type}`)) {
         // 没找到action的情况
+        console.warn(`不存在名为：${action.namespace}/${action.type} 的reducer`)
+        return
     }
     if (actions[`${action.namespace}/${action.type}`].type === 'asyncReducers') {
         // 处理异步状况
@@ -208,7 +210,7 @@ const dispatch = <T, >(action: DispatchParams<T>): Promise<void> | void => {
                     }
                 })
             } catch (e) {
-                resolve();
+                reject();
             }
         })
     }
