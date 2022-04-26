@@ -1,13 +1,10 @@
-import React, {PureComponent} from 'react';
+import React from 'react';
 import {render, screen} from '@testing-library/react';
 import {Global} from './global';
 import store, {ReduxStoreProps} from '../src';
 
-
-class TextView extends PureComponent<ReduxStoreProps> {
-    render() {
-        return <div>{this.props.state.global.id}</div>;
-    }
+const TextView = (props: ReduxStoreProps) => {
+    return <div>{props.state.global.id}</div>;
 }
 
 const TextViewConnect = store.connect(TextView);
