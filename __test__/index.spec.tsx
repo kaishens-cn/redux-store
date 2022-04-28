@@ -1,7 +1,7 @@
 import React, {useEffect} from 'react';
 import {render, screen, fireEvent, act} from '@testing-library/react';
 import {Global} from './global';
-import store, {ReduxStoreProps} from '../src';
+import store, {ReduxStoreProps} from '../';
 
 const TextView = (props: ReduxStoreProps) => {
     return <div onClick={() => {

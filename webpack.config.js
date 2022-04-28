@@ -1,5 +1,6 @@
 const path = require('path');
 const {CleanWebpackPlugin} = require('clean-webpack-plugin');
+const swcConfig = require('./.swcrc.js');
 
 const config = {
     optimization: {
@@ -10,7 +11,7 @@ const config = {
         rules: [
             {
                 test: /\.(ts|js)x?$/,
-                use: 'babel-loader',
+                loader: 'swc-loader',
                 exclude: /node_modules/,
             },
         ],
@@ -35,6 +36,7 @@ const config = {
 module.exports = (env, argv) => {
     if (argv.mode === 'development') {
         config.devtool = 'source-map'; // 导出SourceMap供调试
+        config.module.rules[0].options = swcConfig(true);
     }
 
     if (argv.mode === 'production') {
@@ -42,6 +44,7 @@ module.exports = (env, argv) => {
             'react': 'react',
             'react-dom': 'react-dom'
         };
+        config.module.rules[0].options = swcConfig(true);
     }
     return config;
 };
