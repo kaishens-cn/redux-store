@@ -1,14 +1,14 @@
 import React, {useEffect} from 'react';
 import {render, screen, fireEvent, act} from '@testing-library/react';
 import {Global} from './global';
-import store, {ReduxStoreProps} from '../';
+import store, {ReduxStoreProps} from '../src';
 
 const TextView = (props: ReduxStoreProps) => {
     return <div onClick={() => {
         store.dispatch({
             namespace: 'global',
             payload: {id: '666'},
-            type: 'changeId'
+            type: 'changeId',
         })
     }}>{props.state.global.id}</div>;
 }
@@ -19,7 +19,7 @@ const TextViewRenderOfApi = (props: ReduxStoreProps) => {
             await store.dispatch({
                 namespace: 'global',
                 payload: {apiId: '777'},
-                type: 'getIdUseApi'
+                type: 'getIdUseApi',
             });
         }
         fetchId().then();

@@ -44,7 +44,7 @@ module.exports = (env, argv) => {
             'react': 'react',
             'react-dom': 'react-dom'
         };
-        config.module.rules[0].options = swcConfig(true);
+        config.module.rules[0].options = swcConfig(false);
     }
     return config;
 };

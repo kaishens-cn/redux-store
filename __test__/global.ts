@@ -1,4 +1,4 @@
-import {states, namespaces, Models, reducers, Context, asyncReducers} from '../';
+import {states, namespaces, Models, reducers, Context, asyncReducers} from '../src';
 
 @namespaces('global')
 export class Global extends Models {

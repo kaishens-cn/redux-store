@@ -1,7 +1,13 @@
 const path = require('path');
 
 module.exports = (isDev = false) => {
-    const polyfillConfig = isDev? {} : {
+    const polyfillConfig = isDev? {
+        env: {
+            mode: 'usage',
+            coreJs: 3,
+            path: path.resolve(__dirname),
+        }
+    } : {
         env: {
             mode: 'usage',
             coreJs: 3,
