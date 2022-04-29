@@ -8,7 +8,7 @@ const TextView = (props: ReduxStoreProps) => {
         store.dispatch({
             namespace: 'global',
             payload: {id: '666'},
-            type: 'changeId'
+            type: 'changeId',
         })
     }}>{props.state.global.id}</div>;
 }
@@ -19,7 +19,7 @@ const TextViewRenderOfApi = (props: ReduxStoreProps) => {
             await store.dispatch({
                 namespace: 'global',
                 payload: {apiId: '777'},
-                type: 'getIdUseApi'
+                type: 'getIdUseApi',
             });
         }
         fetchId().then();

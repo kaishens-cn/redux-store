@@ -12,7 +12,7 @@ const TextView = (props: ReduxStoreProps) => {
         <div onClick={() => {
             store.dispatch({
                 namespace: 'global',
-                type: 'changeIdAndName'
+                type: 'changeIdAndName',
             })
         }}>
             按钮
