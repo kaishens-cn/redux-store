@@ -1,6 +1,7 @@
 const path = require('path');
 const {CleanWebpackPlugin} = require('clean-webpack-plugin');
 const swcConfig = require('./.swcrc.js');
+const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 
 const config = {
     optimization: {
@@ -37,6 +38,11 @@ module.exports = (env, argv) => {
     if (argv.mode === 'development') {
         config.devtool = 'source-map'; // 导出SourceMap供调试
         config.module.rules[0].options = swcConfig(true);
+        config.externals = {
+            'react': 'react',
+            'react-dom': 'react-dom'
+        };
+        config.plugins.push(new BundleAnalyzerPlugin());
     }
 
     if (argv.mode === 'production') {
