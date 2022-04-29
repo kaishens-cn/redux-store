@@ -1,12 +1,12 @@
 import React from 'react';
 import {render, screen, fireEvent} from '@testing-library/react';
 import {Global} from './global';
-import store, {ReduxStoreProps} from '../src';
+import {ReduxStoreProps, dispatch, start, connect, addModel} from '../src';
 
 const TextView = (props: ReduxStoreProps) => {
     return <>
         <div onClick={() => {
-            store.dispatch({
+            dispatch({
                 namespace: 'global',
                 type: 'changeIdAndName',
             })
@@ -18,21 +18,21 @@ const TextView = (props: ReduxStoreProps) => {
     </>;
 }
 
-const TextViewConnect = store.connect(TextView, ['global']);
-store.addModel(Global);
+const TextViewConnect = connect(TextView, ['global']);
+addModel(Global);
 
 test('在reducer中重复调用reducer的场景', () => {
-    render(store.start(<TextViewConnect/>));
+    render(start(<TextViewConnect/>));
 
     fireEvent.click(screen.getByText('按钮'));
     expect(screen.queryByText('999')).not.toBeNull();
     expect(screen.queryByText('kai')).not.toBeNull();
 })
 
-const TextViewConnectOfSingleString = store.connect(TextView, 'global');
+const TextViewConnectOfSingleString = connect(TextView, 'global');
 
 test('单namespace时的connect', () => {
-    render(store.start(<TextViewConnectOfSingleString/>));
+    render(start(<TextViewConnectOfSingleString/>));
 
     fireEvent.click(screen.getByText('按钮'));
     expect(screen.queryByText('888')).toBeNull();

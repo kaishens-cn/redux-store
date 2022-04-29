@@ -1,16 +1,16 @@
 import React, {useEffect} from 'react';
 import {render, screen, fireEvent} from '@testing-library/react';
 import {Global} from './global';
-import store, {ReduxStoreProps} from '../src';
+import {ReduxStoreProps, dispatch, start, connect, addModel, subscribe, getState} from '../src';
 
 const TextView = (props: ReduxStoreProps) => {
     useEffect(() => {
-        store.subscribe(() => {})
+        subscribe(() => {})
     }, [])
 
     return <>
         <div onClick={() => {
-            store.dispatch({
+            dispatch({
                 namespace: 'global',
                 type: 'changeIdAndName',
             })
@@ -22,11 +22,11 @@ const TextView = (props: ReduxStoreProps) => {
     </>;
 }
 
-const TextViewConnect = store.connect(TextView);
-store.addModel(Global);
+const TextViewConnect = connect(TextView);
+addModel(Global);
 
 test('使用redux订阅', () => {
-    render(store.start(<TextViewConnect/>));
+    render(start(<TextViewConnect/>));
 
     fireEvent.click(screen.getByText('按钮'));
     expect(screen.queryByText('999')).not.toBeNull();
@@ -34,8 +34,8 @@ test('使用redux订阅', () => {
 })
 
 test('通过getState获取状态快照', () => {
-    render(store.start(<TextViewConnect/>));
+    render(start(<TextViewConnect/>));
 
     fireEvent.click(screen.getByText('按钮'));
-    expect(store.getState<{ id: string }>().get('global')?.id).toBe('999');
+    expect(getState<{ id: string }>().get('global')?.id).toBe('999');
 })

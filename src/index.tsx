@@ -228,10 +228,10 @@ const dispatch = <T, >(action: DispatchParams<T>): Promise<void> | void => {
     }
 }
 
-export default {
+export {
     start,
     addModel,
-    connect: reduxConnect,
+    reduxConnect as connect,
     subscribe,
     getState,
     dispatch,
