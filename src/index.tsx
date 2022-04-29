@@ -15,7 +15,7 @@ interface TargetModel {
 
 let target_namespace = '';
 
-let target_model: TargetModel = {};
+const target_model: TargetModel = {};
 
 export const asyncReducers = () => {
     return (target: Object, property_key: string) => {
@@ -77,20 +77,21 @@ interface DispatchParams<T> {
 }
 
 export class Context {
+    payload: any;
+
     constructor(payload: any) {
         this.payload = payload;
         this.dispatch = dispatch;
     }
 
     dispatch<T, >(_action: DispatchParams<T>): Promise<void> | void {
+        return
     }
-
-    payload: any;
 }
 
 export interface ReduxStoreProps {
-    dispatch?<T>(params: DispatchParams<T>): any
     state?: any
+    dispatch?<T>(params: DispatchParams<T>): any
 }
 
 const reducer = <T, >(state: any = default_state, action: Action<T>): SelfObject<T> => {
@@ -116,10 +117,7 @@ const createStore = (reducer: any) => {
 
 const reduxConnect = (_class: any, namespace?: string | string[]) => {
     return connect((state: Map<string, unknown>) => {
-        let {dispatch, getState, replaceReducer, subscribe} = _store;
-        if (!namespace) {
-            return {state: state.toJS(), dispatch, getState, replaceReducer, subscribe};
-        }
+        const {dispatch, getState, replaceReducer, subscribe} = _store;
         if (namespace instanceof Array) {
             const tmp_state: { [propsName: string]: unknown } = {};
             for (const item of namespace) {
@@ -127,7 +125,10 @@ const reduxConnect = (_class: any, namespace?: string | string[]) => {
             }
             return {state: tmp_state, dispatch, getState, replaceReducer, subscribe};
         }
-        return {state: state.get(namespace), dispatch, getState, replaceReducer, subscribe};
+        if (typeof namespace === 'string') {
+            return {state: state.get(namespace), dispatch, getState, replaceReducer, subscribe};
+        }
+        return {state: state.toJS(), dispatch, getState, replaceReducer, subscribe};
     })(_class)
 };
 
